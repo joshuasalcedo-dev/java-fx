@@ -21,9 +21,9 @@ public class MainApplication extends Application {
     }
 
     public static void main(String[] args) {
-
+        // Start the clipboard listener in a daemon thread to avoid preventing JVM shutdown
         ClipBoardListener clipboardListener = new ClipBoardListener();
-
+        clipboardListener.setDaemon(true);
         clipboardListener.start();
 
         launch();
