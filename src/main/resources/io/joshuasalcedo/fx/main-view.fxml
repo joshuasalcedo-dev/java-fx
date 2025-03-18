@@ -60,7 +60,7 @@
                     </padding>
                     <Label text="Welcome to BootstrapFX Demo!" styleClass="h1"/>
                     <Label text="This application showcases BootstrapFX styling capabilities" styleClass="lead"/>
-                    
+
                     <HBox spacing="10" styleClass="btn-group-horizontal">
                         <Button text="Primary" styleClass="btn,btn-primary"/>
                         <Button text="Success" styleClass="btn,btn-success"/>
@@ -68,7 +68,7 @@
                         <Button text="Warning" styleClass="btn,btn-warning"/>
                         <Button text="Danger" styleClass="btn,btn-danger"/>
                     </HBox>
-                    
+
                     <HBox spacing="10">
                         <Label text="Default Label" styleClass="lbl,lbl-default"/>
                         <Label text="Primary Label" styleClass="lbl,lbl-primary"/>
@@ -76,7 +76,7 @@
                         <Label text="Warning Label" styleClass="lbl,lbl-warning"/>
                         <Label text="Danger Label" styleClass="lbl,lbl-danger"/>
                     </HBox>
-                    
+
                     <VBox styleClass="alert,alert-info">
                         <padding>
                             <Insets top="15" right="15" bottom="15" left="15"/>
@@ -91,38 +91,10 @@
 
     <!-- Right region: Properties or details panel -->
     <right>
-        <VBox spacing="5" prefWidth="250" styleClass="panel,panel-success">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-            <Label text="Properties" styleClass="panel-title,h4"/>
-            <GridPane vgap="5" hgap="5" styleClass="panel-body">
-                <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <TextField GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-
-                <Label text="Type:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <ComboBox GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-
-                <Label text="Status:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                <ChoiceBox GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-                
-                <Button text="Apply Changes" styleClass="btn,btn-success,btn-sm" 
-                        GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
-                    <GridPane.margin>
-                        <Insets top="10"/>
-                    </GridPane.margin>
-                </Button>
-            </GridPane>
-            
-            <VBox styleClass="alert,alert-warning" spacing="5">
-                <padding>
-                    <Insets top="10" right="10" bottom="10" left="10"/>
-                </padding>
-                <Label text="Changes not saved" styleClass="text-warning"/>
-            </VBox>
+        <VBox fx:id="rightPanel" spacing="5" prefWidth="250" styleClass="panel,panel-success">
+            <!-- This will be replaced by the ClipboardHistoryView at runtime -->
         </VBox>
     </right>
-
     <!-- Bottom region: Status bar -->
     <bottom>
         <HBox styleClass="panel,panel-default" spacing="10">

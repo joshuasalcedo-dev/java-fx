@@ -1,5 +1,8 @@
 package io.joshuasalcedo.fx;
 
+
+import io.joshuasalcedo.fx.utils.ClipBoardListener;
+import io.joshuasalcedo.fx.utils.ClipboardHistoryView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -16,7 +19,20 @@ public class MainViewController {
     private TabPane contentTabPane;
 
     @FXML
+    private VBox rightPanel;
+
+    private ClipBoardListener clipboardListener;
+
+    @FXML
     private void initialize() {
+        // Get the clipboard listener instance
+        this.clipboardListener = new ClipBoardListener();
+        this.clipboardListener.start();
+
+        // Add clipboard history view to the right panel
+        rightPanel.getChildren().clear();
+        rightPanel.getChildren().add(new ClipboardHistoryView(clipboardListener));
+
         // Initialize the navigation tree
         TreeItem<String> rootItem = new TreeItem<>("Modules");
         rootItem.setExpanded(true);
@@ -75,16 +91,16 @@ public class MainViewController {
         VBox content = new VBox(20);
         content.getStyleClass().addAll("panel", "panel-info");
         content.setPadding(new javafx.geometry.Insets(20));
-        
+
         Label titleLabel = new Label("Content for " + itemValue);
         titleLabel.getStyleClass().addAll("h2");
-        
+
         Label descriptionLabel = new Label("This is a dynamically created tab with BootstrapFX styling");
         descriptionLabel.getStyleClass().addAll("lead");
-        
+
         Button actionButton = new Button("Action");
         actionButton.getStyleClass().addAll("btn", "btn-primary");
-        
+
         content.getChildren().addAll(titleLabel, descriptionLabel, actionButton);
 
         newTab.setContent(content);
@@ -114,6 +130,10 @@ public class MainViewController {
 
     @FXML
     private void handleExitAction() {
+        // Clean up the clipboard listener
+        if (clipboardListener != null) {
+            clipboardListener.stopListening();
+        }
         Platform.exit();
     }
 
@@ -131,14 +151,14 @@ public class MainViewController {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
-        
+
         // Get the dialog pane and apply bootstrap styles
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.getStyleClass().add("panel-info");
-        
+
         // Apply styles to the buttons
         dialogPane.lookupButton(ButtonType.OK).getStyleClass().addAll("btn", "btn-primary");
-        
+
         alert.showAndWait();
     }
 }

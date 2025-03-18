@@ -20,10 +20,17 @@ public class MainApplication extends Application {
         stage.show();
     }
 
+    //    @Override
+//    public void stop() {
+//        // Clean shutdown of the clipboard listener
+//        if (clipboardListener != null) {
+//            clipboardListener.stopListening();
+//        }
+//    }
+    
     public static void main(String[] args) {
-        // Start the clipboard listener in a daemon thread to avoid preventing JVM shutdown
+        // Start the clipboard listener
         ClipBoardListener clipboardListener = new ClipBoardListener();
-        clipboardListener.setDaemon(true);
         clipboardListener.start();
 
         launch();
