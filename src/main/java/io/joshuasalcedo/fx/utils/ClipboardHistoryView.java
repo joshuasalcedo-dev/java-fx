@@ -1,94 +1,94 @@
 package io.joshuasalcedo.fx.utils;
 
-
-import io.joshuasalcedo.fx.utils.ClipBoardListener;
-import io.joshuasalcedo.fx.utils.ClipboardItem;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
 /**
- * UI component that displays clipboard history and pinned items
+ * A compact UI component that displays clipboard history
  */
 public class ClipboardHistoryView extends BorderPane {
 
     private final ClipBoardListener clipboardListener;
     private final ListView<ClipboardItem> historyListView;
-    private final ListView<ClipboardItem> pinnedListView;
 
     public ClipboardHistoryView(ClipBoardListener clipboardListener) {
         this.clipboardListener = clipboardListener;
         this.getStyleClass().addAll("panel", "panel-success");
 
-        // Create tab pane for history and pinned items
-        TabPane tabPane = new TabPane();
-        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-
-        // Create history list view
-        historyListView = new ListView<>(clipboardListener.getHistoryItems());
-        setupListView(historyListView, true);
-
-        // Create pinned list view
-        pinnedListView = new ListView<>(clipboardListener.getPinnedItems());
-        setupListView(pinnedListView, false);
-
-        // Create tabs
-        Tab historyTab = new Tab("History");
-        VBox historyBox = new VBox(5);
-        historyBox.setPadding(new Insets(10));
-        historyBox.getChildren().add(historyListView);
-        historyTab.setContent(historyBox);
-
-        Tab pinnedTab = new Tab("Pinned");
-        VBox pinnedBox = new VBox(5);
-        pinnedBox.setPadding(new Insets(10));
-        pinnedBox.getChildren().add(pinnedListView);
-        pinnedTab.setContent(pinnedBox);
-
-        // Add tabs to tab pane
-        tabPane.getTabs().addAll(historyTab, pinnedTab);
-
-        // Set up header
+        // Create header
         Label titleLabel = new Label("Clipboard History");
         titleLabel.getStyleClass().addAll("panel-title", "h4");
+        
+        HBox headerBox = new HBox(5);
+        headerBox.setAlignment(Pos.CENTER_LEFT);
+        headerBox.setPadding(new Insets(8, 10, 8, 10));
+        headerBox.getChildren().add(titleLabel);
+        
+        // Create history list view with compact styling
+        historyListView = new ListView<>(clipboardListener.getHistoryItems());
+        historyListView.setPrefHeight(300);
+        setupListView(historyListView);
+        
+        // Main container
+        VBox mainBox = new VBox(0);
+        VBox.setVgrow(historyListView, Priority.ALWAYS);
+        mainBox.getChildren().add(historyListView);
 
         // Add components to the border pane
-        VBox headerBox = new VBox(5);
-        headerBox.setPadding(new Insets(10));
-        headerBox.getChildren().add(titleLabel);
         this.setTop(headerBox);
-        this.setCenter(tabPane);
+        this.setCenter(mainBox);
+        this.setPadding(new Insets(0));
     }
 
-    private void setupListView(ListView<ClipboardItem> listView, boolean isHistory) {
-        // Set cell factory to customize display
+    private void setupListView(ListView<ClipboardItem> listView) {
+        // Set cell factory for compact display
         listView.setCellFactory(new Callback<ListView<ClipboardItem>, ListCell<ClipboardItem>>() {
             @Override
             public ListCell<ClipboardItem> call(ListView<ClipboardItem> param) {
-                return new ClipboardItemCell(isHistory);
+                return new CompactClipboardItemCell();
             }
         });
 
-        // Add double-click handler to copy item to clipboard
+        // Add click handlers
         listView.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2 && !listView.getSelectionModel().isEmpty()) {
+            if (!listView.getSelectionModel().isEmpty()) {
                 ClipboardItem selectedItem = listView.getSelectionModel().getSelectedItem();
-                clipboardListener.copyToClipboard(selectedItem.getContent());
+                
+                // Left click - copy to clipboard
+                if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
+                    clipboardListener.copyToClipboard(selectedItem.getContent());
+                }
+                
+                // Right click - show context menu
+                else if (event.getButton() == MouseButton.SECONDARY) {
+                    // Will implement pin feature later
+                    ContextMenu contextMenu = new ContextMenu();
+                    MenuItem pinItem = new MenuItem("Pin (coming soon)");
+                    contextMenu.getItems().add(pinItem);
+                    
+                    listView.setContextMenu(contextMenu);
+                }
             }
         });
     }
 
     /**
-     * Custom ListCell for displaying clipboard items
+     * Compact cell for displaying clipboard items
      */
-    private class ClipboardItemCell extends ListCell<ClipboardItem> {
-        private final boolean isHistory;
-
-        public ClipboardItemCell(boolean isHistory) {
-            this.isHistory = isHistory;
+    private class CompactClipboardItemCell extends ListCell<ClipboardItem> {
+        
+        public CompactClipboardItemCell() {
+            // Style the cell to be compact
+            this.setPadding(new Insets(2, 8, 2, 8));
+            this.setAlignment(Pos.CENTER_LEFT);
         }
 
         @Override
@@ -98,54 +98,47 @@ public class ClipboardHistoryView extends BorderPane {
             if (empty || item == null) {
                 setText(null);
                 setGraphic(null);
+                setTooltip(null);
                 return;
             }
 
-            // Create content display
-            VBox content = new VBox(2);
-            content.setPadding(new Insets(5));
-
+            // Truncate text for display
+            String content = item.getContent();
+            String displayText = content;
+            
             // Truncate long text
-            String displayText = item.getContent();
-            if (displayText.length() > 50) {
-                displayText = displayText.substring(0, 47) + "...";
+            if (content.length() > 40) {
+                displayText = content.substring(0, 37) + "...";
             }
-
-            Label textLabel = new Label(displayText);
-            content.getChildren().add(textLabel);
-
-            // Create buttons
-            HBox buttonsBox = new HBox(5);
-
-            Button copyButton = new Button("Copy");
-            copyButton.getStyleClass().addAll("btn", "btn-primary", "btn-xs");
-            copyButton.setOnAction(e -> {
-                clipboardListener.copyToClipboard(item.getContent());
-                e.consume();
-            });
-
-            buttonsBox.getChildren().add(copyButton);
-
-            if (isHistory) {
-                Button pinButton = new Button("Pin");
-                pinButton.getStyleClass().addAll("btn", "btn-info", "btn-xs");
-                pinButton.setOnAction(e -> {
-                    clipboardListener.pinItem(item.getContent());
-                    e.consume();
-                });
-                buttonsBox.getChildren().add(pinButton);
+            
+            // Remove newlines for cleaner display
+            displayText = displayText.replace("\n", " ").replace("\r", "");
+            
+            // Set the cell text
+            setText(displayText);
+            
+            // Add tooltip with full content
+            Tooltip tooltip = new Tooltip(content);
+            tooltip.setMaxWidth(400);
+            tooltip.setWrapText(true);
+            setTooltip(tooltip);
+            
+            // Style based on selection
+            updateStyles();
+        }
+        
+        @Override
+        public void updateSelected(boolean selected) {
+            super.updateSelected(selected);
+            updateStyles();
+        }
+        
+        private void updateStyles() {
+            if (isSelected()) {
+                getStyleClass().add("list-cell-selected");
             } else {
-                Button unpinButton = new Button("Unpin");
-                unpinButton.getStyleClass().addAll("btn", "btn-warning", "btn-xs");
-                unpinButton.setOnAction(e -> {
-                    clipboardListener.unpinItem(item.getContent());
-                    e.consume();
-                });
-                buttonsBox.getChildren().add(unpinButton);
+                getStyleClass().removeAll("list-cell-selected");
             }
-
-            content.getChildren().add(buttonsBox);
-            setGraphic(content);
         }
     }
 }

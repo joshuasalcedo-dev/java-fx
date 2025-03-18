@@ -25,14 +25,16 @@ public class MainViewController {
 
     @FXML
     private void initialize() {
-        // Get the clipboard listener instance
+        // Get the clipboard listener instance from MainApplication
         this.clipboardListener = new ClipBoardListener();
         this.clipboardListener.start();
 
-        // Add clipboard history view to the right panel
+        // Add clipboard history view to the right panel with Bootstrap styling
         rightPanel.getChildren().clear();
-        rightPanel.getChildren().add(new ClipboardHistoryView(clipboardListener));
-
+        ClipboardHistoryView historyView = new ClipboardHistoryView(clipboardListener);
+        historyView.getStyleClass().addAll("panel", "panel-success");
+        rightPanel.getChildren().add(historyView);
+        
         // Initialize the navigation tree
         TreeItem<String> rootItem = new TreeItem<>("Modules");
         rootItem.setExpanded(true);

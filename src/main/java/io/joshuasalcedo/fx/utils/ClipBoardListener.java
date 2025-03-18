@@ -95,7 +95,7 @@ public class ClipBoardListener extends Thread {
         addToHistory(content);
 
         // Log the content (for debugging)
-        System.out.println("Clipboard content: " + content);
+        System.out.println("New clipboard content added to history");
     }
 
     private void addToHistory(String content) {
