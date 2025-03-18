@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="io.joshuasalcedo.fx.MainViewController"
+            prefHeight="600.0" prefWidth="800.0">
+
+    <!-- Top region: Menu and toolbar -->
+    <top>
+        <VBox>
+            <MenuBar>
+                <Menu text="File">
+                    <MenuItem text="New" onAction="#handleNewAction"/>
+                    <MenuItem text="Open" onAction="#handleOpenAction"/>
+                    <MenuItem text="Save" onAction="#handleSaveAction"/>
+                    <SeparatorMenuItem />
+                    <MenuItem text="Exit" onAction="#handleExitAction"/>
+                </Menu>
+                <Menu text="Edit">
+                    <MenuItem text="Cut"/>
+                    <MenuItem text="Copy"/>
+                    <MenuItem text="Paste"/>
+                </Menu>
+                <Menu text="Help">
+                    <MenuItem text="About" onAction="#handleAboutAction"/>
+                </Menu>
+            </MenuBar>
+            <ToolBar>
+                <Button text="New" onAction="#handleNewAction" styleClass="btn,btn-primary"/>
+                <Button text="Open" onAction="#handleOpenAction" styleClass="btn,btn-success"/>
+                <Button text="Save" onAction="#handleSaveAction" styleClass="btn,btn-info"/>
+                <Separator orientation="VERTICAL"/>
+                <Button text="Settings" styleClass="btn,btn-warning"/>
+            </ToolBar>
+        </VBox>
+    </top>
+
+    <!-- Left region: Navigation or sidebar -->
+    <left>
+        <VBox spacing="10" prefWidth="200" styleClass="panel,panel-primary">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="Navigation" styleClass="panel-title,h4"/>
+            <TreeView fx:id="navigationTree" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </left>
+
+    <!-- Center region: Main content area -->
+    <center>
+        <TabPane fx:id="contentTabPane">
+            <Tab text="Dashboard" closable="false">
+                <VBox spacing="20" styleClass="panel,panel-info">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <Label text="Welcome to BootstrapFX Demo!" styleClass="h1"/>
+                    <Label text="This application showcases BootstrapFX styling capabilities" styleClass="lead"/>
+                    
+                    <HBox spacing="10" styleClass="btn-group-horizontal">
+                        <Button text="Primary" styleClass="btn,btn-primary"/>
+                        <Button text="Success" styleClass="btn,btn-success"/>
+                        <Button text="Info" styleClass="btn,btn-info"/>
+                        <Button text="Warning" styleClass="btn,btn-warning"/>
+                        <Button text="Danger" styleClass="btn,btn-danger"/>
+                    </HBox>
+                    
+                    <HBox spacing="10">
+                        <Label text="Default Label" styleClass="lbl,lbl-default"/>
+                        <Label text="Primary Label" styleClass="lbl,lbl-primary"/>
+                        <Label text="Success Label" styleClass="lbl,lbl-success"/>
+                        <Label text="Warning Label" styleClass="lbl,lbl-warning"/>
+                        <Label text="Danger Label" styleClass="lbl,lbl-danger"/>
+                    </HBox>
+                    
+                    <VBox styleClass="alert,alert-info">
+                        <padding>
+                            <Insets top="15" right="15" bottom="15" left="15"/>
+                        </padding>
+                        <Label text="Information Alert" styleClass="h3"/>
+                        <Label text="This is an example of an information alert box using BootstrapFX"/>
+                    </VBox>
+                </VBox>
+            </Tab>
+        </TabPane>
+    </center>
+
+    <!-- Right region: Properties or details panel -->
+    <right>
+        <VBox spacing="5" prefWidth="250" styleClass="panel,panel-success">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="Properties" styleClass="panel-title,h4"/>
+            <GridPane vgap="5" hgap="5" styleClass="panel-body">
+                <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Type:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <ComboBox GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Status:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <ChoiceBox GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                
+                <Button text="Apply Changes" styleClass="btn,btn-success,btn-sm" 
+                        GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                    <GridPane.margin>
+                        <Insets top="10"/>
+                    </GridPane.margin>
+                </Button>
+            </GridPane>
+            
+            <VBox styleClass="alert,alert-warning" spacing="5">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <Label text="Changes not saved" styleClass="text-warning"/>
+            </VBox>
+        </VBox>
+    </right>
+
+    <!-- Bottom region: Status bar -->
+    <bottom>
+        <HBox styleClass="panel,panel-default" spacing="10">
+            <padding>
+                <Insets top="5" right="10" bottom="5" left="10"/>
+            </padding>
+            <Label text="Status: Ready" styleClass="text-success"/>
+            <Pane HBox.hgrow="ALWAYS"/> <!-- Spacer -->
+            <Label text="User: Admin" styleClass="badge"/>
+            <Separator orientation="VERTICAL">
+                <padding>
+                    <Insets left="5" right="5"/>
+                </padding>
+            </Separator>
+            <Label text="Version: 1.0" styleClass="text-muted"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
