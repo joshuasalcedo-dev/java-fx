@@ -1,5 +1,6 @@
 package io.joshuasalcedo.fx;
 
+import io.joshuasalcedo.fx.utils.ClipBoardListener;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,6 +21,11 @@ public class MainApplication extends Application {
     }
 
     public static void main(String[] args) {
+
+        ClipBoardListener clipboardListener = new ClipBoardListener();
+
+        clipboardListener.start();
+
         launch();
     }
 }

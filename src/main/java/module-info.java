@@ -12,6 +12,9 @@ module io.joshuasalcedo.fx {
     requires com.almasb.fxgl.all;
     requires jdk.httpserver;
     requires org.json;
+    requires java.datatransfer;
+    requires java.desktop;
+    requires java.logging;
 
     opens io.joshuasalcedo.fx to javafx.fxml;
     exports io.joshuasalcedo.fx;
