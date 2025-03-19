@@ -63,7 +63,7 @@ public class ClipboardHistoryView extends BorderPane {
                 ClipboardItem selectedItem = listView.getSelectionModel().getSelectedItem();
                 
                 // Left click - copy to clipboard
-                if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
+                if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
                     clipboardListener.copyToClipboard(selectedItem.getContent());
                 }
                 
@@ -83,7 +83,7 @@ public class ClipboardHistoryView extends BorderPane {
     /**
      * Compact cell for displaying clipboard items
      */
-    private class CompactClipboardItemCell extends ListCell<ClipboardItem> {
+    private static class CompactClipboardItemCell extends ListCell<ClipboardItem> {
         
         public CompactClipboardItemCell() {
             // Style the cell to be compact

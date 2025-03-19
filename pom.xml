@@ -33,6 +33,12 @@
       <artifactId>javafx-fxml</artifactId>
       <version>17.0.6</version>
     </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>23</version>
+    </dependency>
+
 <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-web</artifactId>
@@ -43,7 +49,47 @@
         <artifactId>javafx-swing</artifactId>
         <version>17.0.6</version>
       </dependency>
-<dependency>
+
+    <!-- https://mvnrepository.com/artifact/fr.brouillard.oss/cssfx -->
+    <dependency>
+      <groupId>fr.brouillard.oss</groupId>
+      <artifactId>cssfx</artifactId>
+      <version>11.5.1</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/net.sourceforge.dynamicreports/dynamicreports-core -->
+    <dependency>
+      <groupId>net.sourceforge.dynamicreports</groupId>
+      <artifactId>dynamicreports-core</artifactId>
+      <version>6.20.1</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/net.sourceforge.dynamicreports/dynamicreports-parent -->
+    <dependency>
+      <groupId>net.sourceforge.dynamicreports</groupId>
+      <artifactId>dynamicreports-parent</artifactId>
+      <version>6.20.1</version>
+      <type>pom</type>
+    </dependency>
+
+
+
+    <!-- https://mvnrepository.com/artifact/com.calendarfx/calendar -->
+    <dependency>
+      <groupId>com.calendarfx</groupId>
+      <artifactId>calendar</artifactId>
+      <version>11.12.7</version>
+      <type>pom</type>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.calendarfx/view -->
+    <dependency>
+      <groupId>com.calendarfx</groupId>
+      <artifactId>view</artifactId>
+      <version>11.12.7</version>
+    </dependency>
+
+
+    <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-media</artifactId>
       <version>17.0.6</version>
